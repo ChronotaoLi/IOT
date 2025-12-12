@@ -22,6 +22,48 @@
         }
       },
       {
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Transform Telemetry",
+        "debugMode": false,
+        "configuration": {
+          "scriptLang": "TBEL",
+          "jsScript": "var newMsg = {};\nnewMsg.msgUid = metadata.id || '';\nnewMsg.deviceSn = metadata.deviceName;\nnewMsg.deviceName = metadata.deviceName;\nnewMsg.productKey = metadata.deviceType || 'default';\nnewMsg.tbDeviceId = metadata.deviceId;\nnewMsg.timestamp = parseInt(metadata.ts);\nnewMsg.values = msg;\nreturn {msg: newMsg, metadata: metadata, msgType: msgType};",
+          "tbelScript": "var newMsg = {};\nnewMsg.msgUid = metadata.id;\nnewMsg.deviceSn = metadata.deviceName;\nnewMsg.deviceName = metadata.deviceName;\nnewMsg.productKey = metadata.deviceType;\nnewMsg.tbDeviceId = metadata.deviceId;\nnewMsg.timestamp = parseInt(metadata.ts);\nnewMsg.values = msg;\nreturn {msg: newMsg, metadata: metadata, msgType: msgType};"
+        },
+        "additionalInfo": {
+          "layoutX": 500,
+          "layoutY": 100
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Transform Attributes",
+        "debugMode": false,
+        "configuration": {
+          "scriptLang": "TBEL",
+          "jsScript": "var newMsg = {};\nnewMsg.msgUid = metadata.id || '';\nnewMsg.deviceSn = metadata.deviceName;\nnewMsg.deviceName = metadata.deviceName;\nnewMsg.productKey = metadata.deviceType || 'default';\nnewMsg.tbDeviceId = metadata.deviceId;\nnewMsg.timestamp = parseInt(metadata.ts);\nnewMsg.scope = metadata.scope || 'CLIENT_SCOPE';\nnewMsg.attributes = msg;\nreturn {msg: newMsg, metadata: metadata, msgType: msgType};",
+          "tbelScript": "var newMsg = {};\nnewMsg.msgUid = metadata.id;\nnewMsg.deviceSn = metadata.deviceName;\nnewMsg.deviceName = metadata.deviceName;\nnewMsg.productKey = metadata.deviceType;\nnewMsg.tbDeviceId = metadata.deviceId;\nnewMsg.timestamp = parseInt(metadata.ts);\nnewMsg.scope = metadata.scope || 'CLIENT_SCOPE';\nnewMsg.attributes = msg;\nreturn {msg: newMsg, metadata: metadata, msgType: msgType};"
+        },
+        "additionalInfo": {
+          "layoutX": 500,
+          "layoutY": 200
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Transform Activity",
+        "debugMode": false,
+        "configuration": {
+          "scriptLang": "TBEL",
+          "jsScript": "var newMsg = {};\nnewMsg.msgUid = metadata.id || '';\nnewMsg.deviceSn = metadata.deviceName;\nnewMsg.deviceName = metadata.deviceName;\nnewMsg.productKey = metadata.deviceType || 'default';\nnewMsg.tbDeviceId = metadata.deviceId;\nnewMsg.timestamp = parseInt(metadata.ts);\nnewMsg.activityType = msgType === 'CONNECT_EVENT' ? 'ONLINE' : 'OFFLINE';\nreturn {msg: newMsg, metadata: metadata, msgType: msgType};",
+          "tbelScript": "var newMsg = {};\nnewMsg.msgUid = metadata.id;\nnewMsg.deviceSn = metadata.deviceName;\nnewMsg.deviceName = metadata.deviceName;\nnewMsg.productKey = metadata.deviceType;\nnewMsg.tbDeviceId = metadata.deviceId;\nnewMsg.timestamp = parseInt(metadata.ts);\nnewMsg.activityType = msgType == 'CONNECT_EVENT' ? 'ONLINE' : 'OFFLINE';\nreturn {msg: newMsg, metadata: metadata, msgType: msgType};"
+        },
+        "additionalInfo": {
+          "layoutX": 500,
+          "layoutY": 300
+        }
+      },
+      {
         "type": "org.thingsboard.rule.engine.rest.TbRestApiCallNode",
         "name": "Telemetry Webhook",
         "debugMode": false,
@@ -38,7 +80,7 @@
           "proxyPort": 0,
           "proxyUser": null,
           "proxyPassword": null,
-          "readTimeoutMs": 0,
+          "readTimeoutMs": 5000,
           "maxParallelRequestsCount": 0,
           "headers": {
             "Content-Type": "application/json"
@@ -48,7 +90,7 @@
           "maxQueueSize": 0
         },
         "additionalInfo": {
-          "layoutX": 650,
+          "layoutX": 750,
           "layoutY": 100
         }
       },
@@ -69,7 +111,7 @@
           "proxyPort": 0,
           "proxyUser": null,
           "proxyPassword": null,
-          "readTimeoutMs": 0,
+          "readTimeoutMs": 5000,
           "maxParallelRequestsCount": 0,
           "headers": {
             "Content-Type": "application/json"
@@ -79,7 +121,7 @@
           "maxQueueSize": 0
         },
         "additionalInfo": {
-          "layoutX": 650,
+          "layoutX": 750,
           "layoutY": 200
         }
       },
@@ -100,7 +142,7 @@
           "proxyPort": 0,
           "proxyUser": null,
           "proxyPassword": null,
-          "readTimeoutMs": 0,
+          "readTimeoutMs": 5000,
           "maxParallelRequestsCount": 0,
           "headers": {
             "Content-Type": "application/json"
@@ -110,7 +152,7 @@
           "maxQueueSize": 0
         },
         "additionalInfo": {
-          "layoutX": 650,
+          "layoutX": 750,
           "layoutY": 300
         }
       },
@@ -168,6 +210,21 @@
       {
         "fromIndex": 2,
         "toIndex": 5,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 6,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 4,
+        "toIndex": 7,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 5,
+        "toIndex": 8,
         "type": "Success"
       }
     ],
