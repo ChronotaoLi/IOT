@@ -1,0 +1,66 @@
+#
+# ThingsBoard 开发环境单机部署
+# 配合 Ruoyi IoT平台使用
+# 端口: 7070(HTTP API), 1883(MQTT)
+#
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: tb-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: thingsboard
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - tb-postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"  # 避免与本地PostgreSQL冲突
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  thingsboard:
+    image: thingsboard/tb-postgres:3.6.4
+    container_name: thingsboard
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # 数据库配置
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/thingsboard
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      # 队列配置（单机使用内存队列）
+      TB_QUEUE_TYPE: in-memory
+      # JVM配置
+      JAVA_OPTS: "-Xms512m -Xmx1024m"
+      # 安装配置
+      INSTALL_TB: "true"
+      LOAD_DEMO: "true"
+    volumes:
+      - tb-data:/data
+      - tb-logs:/var/log/thingsboard
+    ports:
+      - "7070:9090"   # HTTP API端口（TB内部9090映射到外部7070）
+      - "1883:1883"   # MQTT端口
+      - "7071:7070"   # Edge RPC端口
+      - "5683:5683/udp"  # CoAP端口
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/api/noauth/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 120s  # TB启动较慢，给2分钟启动时间
+
+volumes:
+  tb-postgres-data:
+    name: tb-postgres-data
+  tb-data:
+    name: tb-data
+  tb-logs:
+    name: tb-logs

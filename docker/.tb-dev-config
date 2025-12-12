@@ -1,0 +1,14 @@
+# ThingsBoard 开发环境配置
+# 生成时间: 2025年12月11日 星期四 17时14分24秒 PST
+
+TB_URL=http://localhost:7070
+TB_USERNAME=tenant@thingsboard.org
+RUOYI_URL=http://host.docker.internal:5500
+
+# 测试设备信息
+TEST_DEVICE_NAME=TEST001
+TEST_DEVICE_ID=c915bfb0-d6f6-11f0-8e17-7106d6c00254
+TEST_ACCESS_TOKEN=vFeMzBOFbOeuYCaIWqjl
+
+# Rule Chain
+RULE_CHAIN_ID=

@@ -1,0 +1,176 @@
+{
+  "ruleChain": {
+    "name": "IoT Webhook Chain",
+    "type": "CORE",
+    "root": true,
+    "debugMode": false,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 0,
+    "nodes": [
+      {
+        "type": "org.thingsboard.rule.engine.filter.TbMsgTypeSwitchNode",
+        "name": "Message Type Switch",
+        "debugMode": false,
+        "configuration": {
+          "version": 0
+        },
+        "additionalInfo": {
+          "layoutX": 350,
+          "layoutY": 200
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.rest.TbRestApiCallNode",
+        "name": "Telemetry Webhook",
+        "debugMode": false,
+        "configuration": {
+          "restEndpointUrlPattern": "http://host.docker.internal:5500/iot/webhook/telemetry",
+          "requestMethod": "POST",
+          "useSimpleClientHttpFactory": false,
+          "parseToPlainText": false,
+          "ignoreRequestBody": false,
+          "enableProxy": false,
+          "useSystemProxyProperties": false,
+          "proxyScheme": "http",
+          "proxyHost": null,
+          "proxyPort": 0,
+          "proxyUser": null,
+          "proxyPassword": null,
+          "readTimeoutMs": 0,
+          "maxParallelRequestsCount": 0,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "useRedisQueueForMsgPersistence": false,
+          "trimQueue": false,
+          "maxQueueSize": 0
+        },
+        "additionalInfo": {
+          "layoutX": 650,
+          "layoutY": 100
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.rest.TbRestApiCallNode",
+        "name": "Attributes Webhook",
+        "debugMode": false,
+        "configuration": {
+          "restEndpointUrlPattern": "http://host.docker.internal:5500/iot/webhook/attributes",
+          "requestMethod": "POST",
+          "useSimpleClientHttpFactory": false,
+          "parseToPlainText": false,
+          "ignoreRequestBody": false,
+          "enableProxy": false,
+          "useSystemProxyProperties": false,
+          "proxyScheme": "http",
+          "proxyHost": null,
+          "proxyPort": 0,
+          "proxyUser": null,
+          "proxyPassword": null,
+          "readTimeoutMs": 0,
+          "maxParallelRequestsCount": 0,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "useRedisQueueForMsgPersistence": false,
+          "trimQueue": false,
+          "maxQueueSize": 0
+        },
+        "additionalInfo": {
+          "layoutX": 650,
+          "layoutY": 200
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.rest.TbRestApiCallNode",
+        "name": "Activity Webhook",
+        "debugMode": false,
+        "configuration": {
+          "restEndpointUrlPattern": "http://host.docker.internal:5500/iot/webhook/activity",
+          "requestMethod": "POST",
+          "useSimpleClientHttpFactory": false,
+          "parseToPlainText": false,
+          "ignoreRequestBody": false,
+          "enableProxy": false,
+          "useSystemProxyProperties": false,
+          "proxyScheme": "http",
+          "proxyHost": null,
+          "proxyPort": 0,
+          "proxyUser": null,
+          "proxyPassword": null,
+          "readTimeoutMs": 0,
+          "maxParallelRequestsCount": 0,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "useRedisQueueForMsgPersistence": false,
+          "trimQueue": false,
+          "maxQueueSize": 0
+        },
+        "additionalInfo": {
+          "layoutX": 650,
+          "layoutY": 300
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
+        "name": "Save Telemetry",
+        "debugMode": false,
+        "configuration": {
+          "defaultTTL": 0,
+          "skipLatestPersistence": false,
+          "useServerTs": false
+        },
+        "additionalInfo": {
+          "layoutX": 950,
+          "layoutY": 100
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
+        "name": "Save Attributes",
+        "debugMode": false,
+        "configuration": {
+          "scope": "CLIENT_SCOPE",
+          "notifyDevice": false,
+          "sendAttributesUpdatedNotification": false,
+          "updateAttributesOnlyOnValueChange": false
+        },
+        "additionalInfo": {
+          "layoutX": 950,
+          "layoutY": 200
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 1,
+        "type": "Post telemetry"
+      },
+      {
+        "fromIndex": 0,
+        "toIndex": 2,
+        "type": "Post attributes"
+      },
+      {
+        "fromIndex": 0,
+        "toIndex": 3,
+        "type": "Activity Event"
+      },
+      {
+        "fromIndex": 1,
+        "toIndex": 4,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 5,
+        "type": "Success"
+      }
+    ],
+    "ruleChainConnections": null
+  }
+}
