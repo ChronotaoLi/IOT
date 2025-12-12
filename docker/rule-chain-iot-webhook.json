@@ -28,7 +28,7 @@
         "configuration": {
           "scriptLang": "TBEL",
           "jsScript": "var newMsg = {};\nnewMsg.msgUid = metadata.id || '';\nnewMsg.deviceSn = metadata.deviceName;\nnewMsg.deviceName = metadata.deviceName;\nnewMsg.productKey = metadata.deviceType || 'default';\nnewMsg.tbDeviceId = metadata.deviceId;\nnewMsg.timestamp = parseInt(metadata.ts);\nnewMsg.values = msg;\nreturn {msg: newMsg, metadata: metadata, msgType: msgType};",
-          "tbelScript": "var newMsg = {};\nnewMsg.msgUid = metadata.id;\nnewMsg.deviceSn = metadata.deviceName;\nnewMsg.deviceName = metadata.deviceName;\nnewMsg.productKey = metadata.deviceType;\nnewMsg.tbDeviceId = metadata.deviceId;\nnewMsg.timestamp = parseInt(metadata.ts);\nnewMsg.values = msg;\nreturn {msg: newMsg, metadata: metadata, msgType: msgType};"
+          "tbelScript": "var newMsg = {}; newMsg.msgUid = String.valueOf(metadata.ts); newMsg.deviceSn = metadata.deviceName; newMsg.deviceName = metadata.deviceName; newMsg.productKey = metadata.deviceType; newMsg.tbDeviceId = ''; newMsg.timestamp = metadata.ts; newMsg.values = msg; return {msg: newMsg, metadata: metadata, msgType: msgType};"
         },
         "additionalInfo": {
           "layoutX": 500,
@@ -42,7 +42,7 @@
         "configuration": {
           "scriptLang": "TBEL",
           "jsScript": "var newMsg = {};\nnewMsg.msgUid = metadata.id || '';\nnewMsg.deviceSn = metadata.deviceName;\nnewMsg.deviceName = metadata.deviceName;\nnewMsg.productKey = metadata.deviceType || 'default';\nnewMsg.tbDeviceId = metadata.deviceId;\nnewMsg.timestamp = parseInt(metadata.ts);\nnewMsg.scope = metadata.scope || 'CLIENT_SCOPE';\nnewMsg.attributes = msg;\nreturn {msg: newMsg, metadata: metadata, msgType: msgType};",
-          "tbelScript": "var newMsg = {};\nnewMsg.msgUid = metadata.id;\nnewMsg.deviceSn = metadata.deviceName;\nnewMsg.deviceName = metadata.deviceName;\nnewMsg.productKey = metadata.deviceType;\nnewMsg.tbDeviceId = metadata.deviceId;\nnewMsg.timestamp = parseInt(metadata.ts);\nnewMsg.scope = metadata.scope || 'CLIENT_SCOPE';\nnewMsg.attributes = msg;\nreturn {msg: newMsg, metadata: metadata, msgType: msgType};"
+          "tbelScript": "var newMsg = {}; newMsg.msgUid = String.valueOf(metadata.ts); newMsg.deviceSn = metadata.deviceName; newMsg.deviceName = metadata.deviceName; newMsg.productKey = metadata.deviceType; newMsg.tbDeviceId = ''; newMsg.timestamp = metadata.ts; newMsg.scope = 'CLIENT_SCOPE'; newMsg.attributes = msg; return {msg: newMsg, metadata: metadata, msgType: msgType};"
         },
         "additionalInfo": {
           "layoutX": 500,
@@ -56,7 +56,7 @@
         "configuration": {
           "scriptLang": "TBEL",
           "jsScript": "var newMsg = {};\nnewMsg.msgUid = metadata.id || '';\nnewMsg.deviceSn = metadata.deviceName;\nnewMsg.deviceName = metadata.deviceName;\nnewMsg.productKey = metadata.deviceType || 'default';\nnewMsg.tbDeviceId = metadata.deviceId;\nnewMsg.timestamp = parseInt(metadata.ts);\nnewMsg.activityType = msgType === 'CONNECT_EVENT' ? 'ONLINE' : 'OFFLINE';\nreturn {msg: newMsg, metadata: metadata, msgType: msgType};",
-          "tbelScript": "var newMsg = {};\nnewMsg.msgUid = metadata.id;\nnewMsg.deviceSn = metadata.deviceName;\nnewMsg.deviceName = metadata.deviceName;\nnewMsg.productKey = metadata.deviceType;\nnewMsg.tbDeviceId = metadata.deviceId;\nnewMsg.timestamp = parseInt(metadata.ts);\nnewMsg.activityType = msgType == 'CONNECT_EVENT' ? 'ONLINE' : 'OFFLINE';\nreturn {msg: newMsg, metadata: metadata, msgType: msgType};"
+          "tbelScript": "var newMsg = {}; newMsg.msgUid = String.valueOf(metadata.ts); newMsg.deviceSn = metadata.deviceName; newMsg.deviceName = metadata.deviceName; newMsg.productKey = metadata.deviceType; newMsg.tbDeviceId = ''; newMsg.timestamp = metadata.ts; newMsg.activityType = 'OFFLINE'; return {msg: newMsg, metadata: metadata, msgType: msgType};"
         },
         "additionalInfo": {
           "layoutX": 500,
